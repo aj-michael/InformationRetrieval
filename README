@@ -1,0 +1,8 @@
+Algorithms developed for CSSE413 by Adam Michael and Ben Schmidt.
+
+Algorithms include:
+- BM25 Scoring
+- Skip bi-grams
+- N-grams
+- Passage term matching
+- Textual alignment
