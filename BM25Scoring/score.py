@@ -38,7 +38,8 @@ def readIDF(path):
     idf = {}
     with open (path,'r') as f:
         for line in map(splice, f.readlines()):
-            idf[line[0]] = float(line[1])
+            if len(line) == 2:
+                idf[line[0]] = float(line[1])
     return idf
 
 
