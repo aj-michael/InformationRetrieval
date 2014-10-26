@@ -2,9 +2,9 @@
 
 import math
 
-ninput = 'N.dat'
-dfcountinput = 'dfcount.dat'
-idfout = 'idf.dat'
+ninput = 'data/N.dat'
+dfcountinput = 'data/dfcount.dat'
+idfout = 'data/idf.dat'
 
 def readdfcount(path):
     dfcount = {}
