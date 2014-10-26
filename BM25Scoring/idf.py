@@ -1,29 +1,34 @@
 #!/usr/bin/env python
 
-import sys
 import math
 
 ninput = 'N.dat'
 dfcountinput = 'dfcount.dat'
+idfout = 'idf.dat'
 
-if not len(sys.argv) == 2:
-    print 'Include exactly one argument'
-    exit(0)
+def readdfcount(path):
+    dfcount = {}
+    with open (path,'r') as f:
+        for line in map(lambda x: x.strip().split('\t'), f.readlines()):
+            if len(line) == 2:
+                dfcount[line[0]] = int(line[1])
+    return dfcount
 
-qi = sys.argv[1]
+def readN(path):
+    with open (path,'r') as f:
+        return int(f.read())
 
-with open (ninput,'r') as f:
-    N = int(f.read())
+def calcNqi(qi,dfcount):
+    return dfcount[qi] if qi in dfcount.keys() else 0
 
-dfcount = {}
-with open (dfcountinput,'r') as f:
-    for line in map(lambda x: x.strip().split('\t'), f.readlines()):
-        if len(line) == 2:
-            dfcount[line[0]] = int(line[1])
+def calcIDF(N,nqi):
+    return math.log((N-nqi+0.5)/(nqi+0.5))
 
-nqi = dfcount[qi] if qi in dfcount.keys() else 0
-
-IDF = math.log((N-nqi+0.5)/(nqi+0.5))
-
-print "IDF = ", IDF
-
+if __name__ == '__main__':
+    N = readN(ninput)
+    dfcount = readdfcount(dfcountinput)
+    with open (idfout,'w+') as f:
+        for word,count in dfcount.iteritems():
+            nqi = calcNqi(word,dfcount)
+            IDF = calcIDF(N,nqi)
+            f.write(word+'\t'+str(IDF)+'\n')
