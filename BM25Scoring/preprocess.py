@@ -21,7 +21,7 @@ def calcTfDfWcN(path):
     N = len(os.listdir(path))
     for fname in os.listdir(path):
         tfcount[fname] = {}
-        with open (inputdir+fname,'r') as f:
+        with open (path+fname,'r') as f:
             text = re.sub(r'[^\s\w]+','',f.read().replace('\r',' ').replace('\n',' ').replace('\t',' ').lower())
             wordcount[fname] = len(text.split(' '))
             for word in text.split(' '):
