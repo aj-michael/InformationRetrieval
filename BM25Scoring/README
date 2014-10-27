@@ -1,0 +1,10 @@
+An implementation of the Okapi BM25 scoring function as described here:
+http://en.wikipedia.org/wiki/Okapi_BM25
+
+To prepare the model, run the following command
+python preprocess.py
+
+To run a query, run the following command
+python score.py query k1 b
+
+where query is the query string and k1 and b are free numeric parameters. k1 is typically chosen from the interval [1.2,2.0] and b is typically 0.75.
