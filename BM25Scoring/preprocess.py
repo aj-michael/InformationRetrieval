@@ -75,7 +75,7 @@ def writeIdf(path,df,N):
     with open (idfout,'w+') as f:
         for word,count in df.iteritems():
             nqi = calcNqi(word,df)
-            IDF = calcIDF(N,nqi)
+            IDF = max(0,calcIDF(N,nqi))
             f.write(word+'\t'+str(IDF)+'\n')
 
 if __name__ == '__main__':
