@@ -16,6 +16,16 @@ def skip1bigramify(phrase):
             sbigrams |= {frozenset({words[i],words[i+2]})}
     return sbigrams
 
+def skip2bigramify(phrase):
+    sbigrams = set()
+    words = phrase.split()
+    for i in range(len(words)-1):
+        sbigrams |= {frozenset({words[i],words[i+1]})}
+        if i + 2 < len(words):
+            sbigrams |= {frozenset({words[i],words[i+2]})}
+        if i + 3 < len(words):
+            sbigrams |= {frozenset({words[i],words[i+3]})}
+    return sbigrams
 
 def phrases(path):
     with open (path,'r') as f:
@@ -25,13 +35,15 @@ def phrases(path):
 
 if __name__ == '__main__':
     query = sys.argv[1]
-    querygrams = skip1bigramify(query)
+    skip = int(sys.argv[2])
+    bigramify = skip2bigramify if skip == 2 else skip1bigramify
+    querygrams = bigramify(query)
     print querygrams
     results = []
     for fname in os.listdir(inputdir):
         passagegrams = set()
         for phrase in phrases(inputdir+fname):
-            passagegrams |= skip1bigramify(phrase)
+            passagegrams |= bigramify(phrase)
         passageScore = len(querygrams & passagegrams) / float(len(passagegrams))
         queryScore = len(querygrams & passagegrams) / float(len(querygrams))
         try:

@@ -12,6 +12,8 @@ totaldocsout = 'data/N.dat'
 wordcountout = 'data/wordcount.dat'
 idfout = 'data/idf.dat'
 
+EPSILON = 0
+
 exclude = set(string.punctuation)
 
 def calcTfDfWcN(path):
@@ -75,7 +77,7 @@ def writeIdf(path,df,N):
     with open (idfout,'w+') as f:
         for word,count in df.iteritems():
             nqi = calcNqi(word,df)
-            IDF = max(0,calcIDF(N,nqi))
+            IDF = max(EPSILON,calcIDF(N,nqi))
             f.write(word+'\t'+str(IDF)+'\n')
 
 if __name__ == '__main__':

@@ -71,5 +71,7 @@ if __name__ == '__main__':
     for f in files:
         results += [(f,calcScore(f,Q,tfmap,idfmap,wcmap,k1,b))]
     results = sorted(results, key=lambda tup: tup[1],reverse=True)
+    x = 1
     for result in results:
-        print result
+        print x,result
+        x = x + 1
