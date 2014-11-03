@@ -12,10 +12,11 @@ totaldocsout = 'data/N.dat'
 wordcountout = 'data/wordcount.dat'
 idfout = 'data/idf.dat'
 
-EPSILON = 0
+EPSILON = float("-inf")
 
 exclude = set(string.punctuation)
 
+# term frequency, document frequency, word count, document count
 def calcTfDfWcN(path):
     dfcount = {}
     tfcount = {}
@@ -38,10 +39,11 @@ def calcTfDfWcN(path):
     dfcount = {key:len(value) for key,value in dfcount.iteritems()}
     return tfcount,dfcount,wordcount,N
 
-
+# intermediate step in calculating IDF
 def calcNqi(qi,dfcount):
     return dfcount[qi] if qi in dfcount.keys() else 0
 
+# from wikipedia
 def calcIDF(N,nqi):
     return math.log((N-nqi+0.5)/(nqi+0.5))
 
