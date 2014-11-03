@@ -6,6 +6,63 @@ import string
 import sys
 import math
 
+specialTerms = [
+        'civil war',
+        'first president',
+        'world war i',
+        'world war ii',
+        'great depression',
+        'pearl harbor',
+        'world trade center',
+        'white house',
+        'George Washington',
+        'John Adams',
+        'Thomas Jefferson',
+        'James Madison',
+        'James Monroe', 
+        'John Quincy Adams', 
+        'Andrew Jackson', 
+        'Martin Van Buren', 
+        'William H. Harrison', 
+        'John Tyler', 
+        'James K Polk', 
+        'Zachary Taylor', 
+        'Millard Fillmore', 
+        'Franklin Pierce',
+        'James Buchanan',
+        'Abraham Lincoln',
+        'Andrew Johnson',
+        'Ulysses S Grant',
+        'Rutherford B Hayes',
+        'James A Garfield',
+        'Chester A Arthur',
+        'Grover Cleveland', 
+        'Benjamin Harrison', 
+        'Grover Cleveland', 
+        'William McKinley', 
+        'Theodore Roosevelt', 
+        'William H Taft', 
+        'Woodrow Wilson',
+        'Warren G Harding',
+        'Calvin Coolidge',
+        'Herbert Hoover',
+        'Franklin D Roosevelt',
+        'Harry S Truman',
+        'Dwight D Eisenhower',
+        'John F Kennedy',
+        'Lyndon B Johnson',
+        'Richard M Nixon',
+        'Gerald R Ford',
+        'Jimmy Carter',
+        'Ronald Reagan',
+        'George H W Bush',
+        'Bill Clinton',
+        'George W Bush',
+        'Barack H Obama',
+    ]
+
+#print specialTerms
+
 # returns the passage score for a given passage
 def passageScore(passage):
     numer = 0
@@ -48,8 +105,32 @@ def idf(term):
 #converts input of string to list of terms
 def getTerms(terms):
     outList = []
+    tempWord = ""
     for word in terms.split(' '):
-        outList.append(word.lower())
+        word = word.lower()
+        if tempWord == "":
+            tempWord = word
+        else:
+            tempWord = tempWord + ' ' + word
+        portion = False
+        isWord = False
+        for bigWord in specialTerms:
+            bigWord = bigWord.lower()
+            if tempWord == bigWord:
+                isWord = True
+                portion = False
+                #print bigWord, tempWord
+            elif bigWord.startswith(tempWord) and (bigWord[len(tempWord):][0] == ' '):
+                portion = True
+                #print bigWord, tempWord
+        # if temp word was matched, use as key
+        if isWord:
+           word = tempWord
+        # only update counts on unmatched words, or matched words
+        if isWord or not portion:
+            outList.append(word)
+            tempWord = ""
+    print outList
     return outList
 
 
@@ -57,7 +138,7 @@ def getTerms(terms):
 query = sys.argv[1]
 query = getTerms(query)
 
-inputdir = '../BM25Scoring/data/'
+inputdir = '../PassageTermMatching/data/'
 
 #extract total number of documents from N.dat
 ninput = 'N.dat'
@@ -92,4 +173,4 @@ for fname in os.listdir(inputdir):
 sortedKeys = sorted(passageScores, key=passageScores.get,reverse=True)
 print(passageScores),'\n\n'
 for i in range(10):
-    print sortedKeys[i],passageScores[sortedKeys[i]]
+    print sortedKeys[i], passageScores[sortedKeys[i]]

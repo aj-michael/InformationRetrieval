@@ -1,1 +1,1 @@
-python passageTermMatching 'Lincoln'
+python passageTermMatching.py 'query'
